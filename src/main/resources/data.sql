@@ -1,6 +1,7 @@
-delete from Event_Details;
 delete from Reservation;
-insert into Event_Details(title,info)
-values ('tests title','test info');
-insert into Reservation (eventDetails,info)
-values (1,'test info');
+delete from Event_Details;
+
+insert into Event_Details(eventid,title,info)
+values (1,'tests title','test info');
+insert into Reservation (reservationid,eventDetails,info)
+values (1,1,'test info');
