@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Data
 public class EventDetails {
     @Id
-    public long eventDetailsId;
+    public long eventId;
     public String title;
     public String info;
 }

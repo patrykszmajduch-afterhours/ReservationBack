@@ -4,10 +4,8 @@ package rest.angular.demo.Controllers;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 
 import org.springframework.http.MediaType;
@@ -36,11 +34,12 @@ public class DataService {
                 .getResourceAsStream("/static/image.jpg");
         return IOUtils.toByteArray(in);
     }
-    @GetMapping(value="/list/eventdetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/list/eventdetails")
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<EventDetails> getListOfEventDetails(){
-        List<EventDetails> eventDetailsList= new ArrayList<>();
-
+        List<EventDetails> eventDetailsList = new ArrayList<>();
+        eventDetailsList= (List<EventDetails>) repositoryEventDetails.findAll();
         return eventDetailsList;
     }
 }
