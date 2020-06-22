@@ -1,7 +1,7 @@
-delete from Reservation;
+--delete from Reservation;
 delete from Event_Details;
 
-insert into Event_Details(eventid,title,info)
-values (1,'tests title','test info');
-insert into Reservation (reservationid,eventDetails,info)
-values (1,1,'test info');
+insert into Event_Details(event_id,title,info,type_event,location,date_Of,img_Url)
+values (1,'tests title','test info','test_type','test location',TO_DATE('17/12/2015', 'DD/MM/YYYY'),'1');
+insert into Event_Details(event_id,title,info,type_event,location,date_Of,img_Url)
+values (2,'tests title2','test info2','test_typ2e','test location2',TO_DATE('17/12/2017', 'DD/MM/YYYY'),'1');
