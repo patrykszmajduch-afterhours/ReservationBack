@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.awt.*;
 import java.util.Date;
 
 
@@ -25,5 +26,10 @@ public class EventDetails {
     private String location;
     @Column(name="date_of")
     private Date date;
-    private String imgUrl;
+    private String imgName;
+
+    public static EventDetails createEvent(EventD eventD){
+        return new EventDetails(eventD.getId(),eventD.getTitle(),eventD.getInfo(),eventD.getType(),eventD.getLocation(),eventD.getDate(),eventD.getImgName());
+    }
+
 }

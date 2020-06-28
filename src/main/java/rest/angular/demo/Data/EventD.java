@@ -2,11 +2,14 @@ package rest.angular.demo.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import java.util.Date;
 
 @AllArgsConstructor
+@Getter
 @Data
 public class EventD {
 
@@ -18,5 +21,4 @@ public class EventD {
     private Date date;
     private String imgName;
     private String img;
-
 }
