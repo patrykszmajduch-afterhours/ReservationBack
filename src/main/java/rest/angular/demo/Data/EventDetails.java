@@ -1,8 +1,6 @@
 package rest.angular.demo.Data;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import javax.persistence.*;
@@ -14,6 +12,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+//@Setter(AccessLevel.PROTECTED)
+@Setter
 public class EventDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +26,26 @@ public class EventDetails {
     private String location;
     @Column(name="date_of")
     private Date date;
-    private String imgName;
+    private String imgExtension;
+
+
 
     public static EventDetails createEvent(EventD eventD){
-        return new EventDetails(eventD.getId(),eventD.getTitle(),eventD.getInfo(),eventD.getType(),eventD.getLocation(),eventD.getDate(),eventD.getImgName());
+        EventDetails build = new EventDetails();
+        build.setTitle(eventD.getTitle());
+        build.setDate(eventD.getDate());
+        build.setInfo(eventD.getInfo());
+        build.setType(eventD.getType());
+        build.setLocation(eventD.getLocation());
+        build.setImgExtension(getExt(eventD.getImgName()));
+        if(eventD.getId()!=0)
+            build.setId(eventD.getId());
+        return build;
     }
-
+   private static String getExt(String text){
+        String arr[]=text.split("\\.");
+        if(arr.length<2)
+            return "";
+        return arr[1];
+   }
 }

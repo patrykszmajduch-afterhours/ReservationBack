@@ -11,7 +11,7 @@ CREATE TABLE if not exists Event_Details (
     type_event VARCHAR(128) NOT NULL,
     location VARCHAR(128) NOT NULL,
     date_Of DATE NOT NULL,
-    img_Url VARCHAR(128) NOT NULL,
+
     PRIMARY KEY (event_Id)
 );
 /*
