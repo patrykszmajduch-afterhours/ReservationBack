@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import org.springframework.http.MediaType;
-import rest.angular.demo.Data.EventD;
+import rest.angular.demo.Data.EventDetailsResponse;
 import rest.angular.demo.Data.EventDetails;
 //import rest.angular.demo.Data.Reservation;
 //import rest.angular.demo.ReservationRepository;
@@ -56,64 +56,63 @@ public class Controller {
     @GetMapping(value = "/eventdetails")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<EventDetails> getListOfEventDetails() {
-        createData();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<EventDetails> eventDetailsList = new ArrayList<>();
-        eventDetailsList = (List<EventDetails>) eventDetailsRepository.findAll();
-        return eventDetailsList;
+    public List<EventDetailsResponse> getListOfEventDetails() {
+        return dataService.getListOfEventDetailsResponse();
     }
 
     @GetMapping(value = "/eventdetails/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public EventDetails getEventDetails(@PathVariable long id) {
-        return eventDetailsRepository.findById(id).orElseThrow(() -> new EventDetailsNotFound(id));
+    public EventDetailsResponse getEventDetails(@PathVariable long id) {
+        return dataService.returnEventDetailsResponse(id);
     }
 
     @PostMapping(value = "/eventdetails")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public EventD createEventDetails(@RequestBody EventD eventDetails) {
-//        eventDetails = eventDetailsRepository.save(eventDetails);
-        System.out.println(eventDetails);
-        EventDetails temp =  EventDetails.createEvent(eventDetails);
-        eventDetailsRepository.save(temp);
-        String arr[] = eventDetails.getImg().split(",");
-        dataService.decoder(arr[1],temp.getId()+"."+temp.getImgExtension());
-        temp.setImgExtension(dataService.encoder(temp.getId()+"."+temp.getImgExtension()));
-        return eventDetails;
+    public EventDetailsResponse createEventDetails(@RequestBody EventDetailsResponse eventDetailsResponse) {
+        dataService.saveEventDetailsResponse(eventDetailsResponse);
+        return eventDetailsResponse;
     }
 
-    @PutMapping(value = "/eventdetails/{id}")
+    @PutMapping(value = "/eventdetails")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public EventDetails updateEventDetails(@RequestBody EventDetails eventDetails, @PathVariable long id) {
-        eventDetails = eventDetailsRepository.save(eventDetails);
-        return eventDetails;
+    public EventDetailsResponse updateEventDetails(@RequestBody EventDetailsResponse eventDetailsResponse) {
+          dataService.updateEventDetailsResponse(eventDetailsResponse);
+        return eventDetailsResponse;
     }
 
     @DeleteMapping(value = "/eventdetails/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public EventDetails deleteEventDetails(@PathVariable long id) {
-        EventDetails temp = eventDetailsRepository.findById(id).orElseThrow(() -> new EventDetailsNotFound(id));
-        eventDetailsRepository.deleteById(id);
-        return temp;
-    }
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping(value="image/")
-    @ResponseBody
-    public String getImg(){
-        //"data:image/jpeg;base64,"+
-        String ext="jpeg";
-        return "data:image/"+ext+"base64," +dataService.encoder("1.png");
-    }
 
+            return dataService.deleteEventDetails(id);
+    }
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping(value="image/")
+//    @ResponseBody
+//    public String getImg(){
+//        //"data:image/jpeg;base64,"+
+//        String ext="jpeg";
+////        return "data:image/"+ext+"base64," +dataService.encoder("1.png");
+//    }
+
+    //test resp
+/*
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping(value="image/test")
+    @ResponseBody
+    public EventDetailsResponse getEv(){
+            //"data:image/jpeg;base64,"+
+       */
+/* EventDetailsResponse temp =EventDetails.createEventCommunication(eventDetailsRepository.findById((long)1).orElseThrow(() -> new EventDetailsNotFound((long)1)));
+        temp = dataService.createResponse(temp);
+        return temp;*//*
+
+    }
+*/
 
 
     /*@GetMapping(value="/download")
