@@ -13,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Setter(AccessLevel.PROTECTED)
 
-public class EventDetails {
+public class EventDetails {//model danych zapisywany do bazy
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
@@ -28,15 +28,15 @@ public class EventDetails {
     private String imgExt;
 
 
-    public static EventDetails createEvent(EventDetailsResponse eventDetailsResponse) {
+    public static EventDetails createEvent(EventDetailsDTO eventDetailsDTO) {
         EventDetails build = new EventDetails();
-        build.setTitle(eventDetailsResponse.getTitle());
-        build.setDate(eventDetailsResponse.getDate());
-        build.setInfo(eventDetailsResponse.getInfo());
-        build.setType(eventDetailsResponse.getType());
-        build.setLocation(eventDetailsResponse.getLocation());
-        build.setImgExt(eventDetailsResponse.getImgExt());
-        build.setId(eventDetailsResponse.getId());
+        build.setTitle(eventDetailsDTO.getTitle());
+        build.setDate(eventDetailsDTO.getDate());
+        build.setInfo(eventDetailsDTO.getInfo());
+        build.setType(eventDetailsDTO.getType());
+        build.setLocation(eventDetailsDTO.getLocation());
+        build.setImgExt(eventDetailsDTO.getImgExt());
+        build.setId(eventDetailsDTO.getId());
         return build;
     }
     public void populateData(EventDetails eventDetails){

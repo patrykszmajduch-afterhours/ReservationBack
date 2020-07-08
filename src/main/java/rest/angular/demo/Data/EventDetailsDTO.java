@@ -10,7 +10,7 @@ import java.util.Date;
 
 @AllArgsConstructor
 @Data
-public class EventDetailsResponse {
+public class EventDetailsDTO {//obiekt do odbioru i mapowania repsonsów/requestów
     private long id;
     private String title;
     private String info;
@@ -21,7 +21,7 @@ public class EventDetailsResponse {
     private String img;
 
 
-    public EventDetailsResponse(EventDetails eventDetails){
+    public EventDetailsDTO(EventDetails eventDetails){
         this.id = eventDetails.getId();
         this.title = eventDetails.getTitle();
         this.info = eventDetails.getInfo();

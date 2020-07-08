@@ -2,10 +2,10 @@ package rest.angular.demo.services;
 
 import org.springframework.stereotype.Service;
 import rest.angular.demo.Data.EventDetails;
-import rest.angular.demo.Data.EventDetailsResponse;
+import rest.angular.demo.Data.EventDetailsDTO;
 import rest.angular.demo.EventDetailsRepository;
 import rest.angular.demo.ImgReaderWriter;
-import rest.angular.demo.customException.EventDetailsNotFound;
+import rest.angular.demo.CustomException.EventDetailsNotFound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,77 +18,75 @@ public class DataService {
         this.eventDetailsRepository = eventDetailsRepository;
     }
 
-
-    public boolean saveEventDetailsResponse(EventDetailsResponse eventDetailsResponse){
-        boolean succes=true;
-        EventDetails eventDetails = EventDetails.createEvent(eventDetailsResponse);
-        eventDetailsRepository.save(eventDetails);
-        String imageArray[] = eventDetailsResponse.getImg().split(",");
-        if(imageArray.length<2)
-            succes=false;
-        else{
+    public boolean saveEventDetailsResponse(EventDetailsDTO eventDetailsDTO) {//metoda serwisu do zapisu
+        boolean succes = true;
+        EventDetails eventDetails = EventDetails.createEvent(eventDetailsDTO);
+        eventDetailsRepository.save(eventDetails);//zapisanie obkietu w bazie pozwala nam wygenerowac automatyczne id
+        String imageArray[] = eventDetailsDTO.getImg().split(",");//oddzielenie danych o obrazie wszystko co po przecinku zawiera wyglad obrazu
+        if (imageArray.length < 2)
+            succes = false;
+        else {
             //example id = 1 ext = jpeg| image name = 1.jpeg
-            String imageName= createFileName(eventDetails);
-            ImgReaderWriter.decoder(eventDetailsResponse.getImg(),imageName);
+            String imageName = createFileName(eventDetails);//utworzenie nazwy zdjecia do zapisu
+            ImgReaderWriter.decoder(eventDetailsDTO.getImg(), imageName);//zapisanie zdjecia
         }
         return succes;
     }
-    public boolean updateEventDetailsResponse(EventDetailsResponse eventDetailsResponse){
-        boolean succes=true;
-        EventDetails eventDetails = EventDetails.createEvent(eventDetailsResponse);
-        EventDetails entity = eventDetailsRepository.findById(eventDetailsResponse.getId()).get();
+
+    public boolean updateEventDetailsResponse(EventDetailsDTO eventDetailsDTO) {//aktuaizacja danych jedna róznica od metody powyżej to dodanie usuniecia zdjecia po czym zapisanie nowego
+        boolean succes = true;
+        EventDetails eventDetails = EventDetails.createEvent(eventDetailsDTO);
+        EventDetails entity = eventDetailsRepository.findById(eventDetailsDTO.getId()).get();
         entity.populateData(eventDetails);
         eventDetailsRepository.save(entity);
 
-        String imageArray[] = eventDetailsResponse.getImg().split(",");
-        if(imageArray.length<2)
-            succes=false;
-        else{
+        String imageArray[] = eventDetailsDTO.getImg().split(",");
+        if (imageArray.length < 2)
+            succes = false;
+        else {
             //example id = 1 ext = jpeg| image name = 1.jpeg
-            String imageName= createFileName(eventDetails);
+            String imageName = createFileName(eventDetails);
             ImgReaderWriter.deleteImg(imageName);
-            ImgReaderWriter.decoder(eventDetailsResponse.getImg(),imageName);
+            ImgReaderWriter.decoder(eventDetailsDTO.getImg(), imageName);
         }
         return succes;
     }
-    public EventDetailsResponse returnEventDetailsResponse(long id){
+
+    public EventDetailsDTO returnEventDetailsResponse(long id) {//zwrocenie wydarzenia o okonkretnym id
         EventDetails eventDetails = eventDetailsRepository.findById(id).orElseThrow(() -> new EventDetailsNotFound(id));
-        String imageName= createFileName(eventDetails);
+        String imageName = createFileName(eventDetails);
         String imageFile = ImgReaderWriter.encoder(imageName);
-        EventDetailsResponse eventDetailsResponse = new EventDetailsResponse(eventDetails);
-        eventDetailsResponse.setImg("data:image/"+eventDetails.getImgExt()+";base64,"+imageFile);
-        return eventDetailsResponse;
+        EventDetailsDTO eventDetailsDTO = new EventDetailsDTO(eventDetails);
+        eventDetailsDTO.setImg("data:image/" + eventDetails.getImgExt() + ";base64," + imageFile);
+        return eventDetailsDTO;
     }
 
-    public List<EventDetailsResponse> getListOfEventDetailsResponse(){
+    public List<EventDetailsDTO> getListOfEventDetailsResponse() {//zwrocenie listy wszystkich eventow
         List<EventDetails> eventDetailsList = new ArrayList<>();
         eventDetailsList = (List<EventDetails>) eventDetailsRepository.findAll();
 
 
-        List<EventDetailsResponse> eventDetailsResponseList = new ArrayList<>();
-        for(EventDetails e : eventDetailsList){
-            String imageName= createFileName(e);
+        List<EventDetailsDTO> eventDetailsDTOList = new ArrayList<>();
+        for (EventDetails e : eventDetailsList) {
+            String imageName = createFileName(e);
             String imageFile = ImgReaderWriter.encoder(imageName);
-            EventDetailsResponse eventDetailsResponse = new EventDetailsResponse(e);
-            eventDetailsResponse.setImg("data:image/"+e.getImgExt()+";base64,"+imageFile);
-            eventDetailsResponseList.add(eventDetailsResponse);
+            EventDetailsDTO eventDetailsDTO = new EventDetailsDTO(e);
+            eventDetailsDTO.setImg("data:image/" + e.getImgExt() + ";base64," + imageFile);
+            eventDetailsDTOList.add(eventDetailsDTO);
         }
-        return eventDetailsResponseList;
+        return eventDetailsDTOList;
     }
-    public EventDetails deleteEventDetails(long id){
+
+    public EventDetails deleteEventDetails(long id) {//usuniecie wydarzenia z bazy danych
         EventDetails eventDetails = eventDetailsRepository.findById(id).orElseThrow(() -> new EventDetailsNotFound(id));
         eventDetailsRepository.deleteById(id);
         ImgReaderWriter.deleteImg(createFileName(eventDetails));
         return eventDetails;
     }
 
-
-
-    private String createFileName(EventDetails eventDetails){
-        return eventDetails.getId()+"."+eventDetails.getImgExt();
+    private String createFileName(EventDetails eventDetails) {//prosta metoda to tworzenia nazwy zdjec
+        return eventDetails.getId() + "." + eventDetails.getImgExt();
     }
-
-
 
 
 }
