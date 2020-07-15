@@ -21,7 +21,7 @@ public class Controller {
         this.dataService = dataService;
     }//wstrzykniecie zależności  serwisu do obśługi danych
 
-    @GetMapping(value = "/eventdetails")//zmapowanie zapytania pod dany adres
+    @RequestMapping(value = "/eventdetails",method = RequestMethod.GET)//zmapowanie zapytania pod dany adres
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<EventDetailsDTO> getListOfEventDetails() {//metoda do obsługi zapytania odnośnie listy wydarzeń
