@@ -1,14 +1,15 @@
-package rest.angular.demo.Controllers;
+package rest.angular.demo.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import rest.angular.demo.Data.EventDetailsDTO;
-import rest.angular.demo.Data.EventDetails;
+import rest.angular.demo.data.EventDetailsDTO;
+import rest.angular.demo.data.EventDetails;
 import rest.angular.demo.services.DataService;
 
 import java.util.List;
+
 
 @CrossOrigin(origins = "http://localhost:4200")//zezwala na zapytania z podanego adresu
 @RestController//adnotacja służąca do implementacji restowego serwisu
