@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.ws.rs.HttpMethod;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,8 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);*/
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/authenticate").permitAll()
-				.antMatchers("/eventdetails").hasAnyAuthority("user","admin").
+				.authorizeRequests().antMatchers("/authenticate").permitAll().and().authorizeRequests()
+				.antMatchers(HttpMethod.GET,"/eventdetails").hasAnyAuthority("user","admin").and().authorizeRequests()
+				.antMatchers(HttpMethod.DELETE,"/eventdetails").hasAnyAuthority("tylkoja").
 
 				// all other requests need to be authenticated
 						anyRequest().authenticated().and().
