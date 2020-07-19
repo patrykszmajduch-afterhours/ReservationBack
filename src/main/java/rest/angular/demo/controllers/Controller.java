@@ -28,13 +28,6 @@ public class Controller {
         return dataService.getListOfEventDetailsResponse();
     }
 
-    @RequestMapping(value = "/eventdetails",method = RequestMethod.DELETE)//zmapowanie zapytania pod dany adres
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public String deletOfList() {//metoda do obsługi zapytania odnośnie listy wydarzeń
-        return "OK!!!!!#@#$$#";
-    }
-
     @GetMapping(value = "/eventdetails/{id}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

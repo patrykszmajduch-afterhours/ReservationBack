@@ -51,12 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().authorizeRequests().antMatchers("/authenticate").permitAll().and().authorizeRequests().
-                       and().authorizeRequests().antMatchers(HttpMethod.GET, "/eventdetails").hasAnyAuthority("user", "admin").and().authorizeRequests().antMatchers(HttpMethod.POST, "/eventdetails").hasAuthority("admin").and().authorizeRequests().anyRequest().authenticated().and().
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
-                        exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.csrf().disable().authorizeRequests()
+                .antMatchers("/authenticate").permitAll()
+                .antMatchers(HttpMethod.GET, "/eventdetails").hasAnyAuthority("user","admin")
+                .antMatchers(HttpMethod.GET,"/eventdetails/*").hasAnyAuthority("user","admin")
+                .anyRequest().hasAnyAuthority("admin")
+                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 

@@ -14,3 +14,5 @@ insert  into USERS_CREDENTIALS(id,username,password,role)
 values (1,'user','$2y$12$Uuc2BgG92ISiJTsLKcF5r.rBiiasYeDKB/LokzE5f51aE9Wli5776','user');
 insert  into USERS_CREDENTIALS(id,username,password,role)
 values (2,'admin','$2y$12$v5OXdjqdD25HiUZnzkcYy.4DjSDvVNymFwPzCtRrp/CVMOVQEFwdS','admin');
+insert  into USERS_CREDENTIALS(id,username,password,role)
+values (3,'admin1','$2y$12$v5OXdjqdD25HiUZnzkcYy.4DjSDvVNymFwPzCtRrp/CVMOVQEFwdS','admin1');
