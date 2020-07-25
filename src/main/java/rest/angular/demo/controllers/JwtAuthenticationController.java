@@ -45,6 +45,7 @@ public class JwtAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		return ResponseEntity.ok(new JwtResponse(token));
+//		return ResponseEntity.ok(new JwtResponse("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwidXNlcm5hbWUiOiJ1c2VyIiwicGVybWlzc2lvbiI6ImFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ.KeDxH1_Q-fqFG41PuILuig3mbPaZEZOKSq2sPfs_USQ"));
 	}
 
 	private void authenticate(String username, String password) throws Exception {
