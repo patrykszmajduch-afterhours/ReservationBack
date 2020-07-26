@@ -1,11 +1,11 @@
 package rest.angular.demo.services;
 
 import org.springframework.stereotype.Service;
-import rest.angular.demo.data.EventDetails;
-import rest.angular.demo.data.EventDetailsDTO;
-import rest.angular.demo.repo.EventDetailsRepository;
+import rest.angular.demo.Data.EventDetails;
+import rest.angular.demo.Data.EventDetailsDTO;
+import rest.angular.demo.EventDetailsRepository;
 import rest.angular.demo.ImgReaderWriter;
-import rest.angular.demo.customException.EventDetailsNotFound;
+import rest.angular.demo.CustomException.EventDetailsNotFound;
 
 import java.util.ArrayList;
 import java.util.List;

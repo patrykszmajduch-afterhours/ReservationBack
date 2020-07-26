@@ -1,4 +1,4 @@
-package rest.angular.demo.data;
+package rest.angular.demo.Data;
 
 import lombok.*;
 

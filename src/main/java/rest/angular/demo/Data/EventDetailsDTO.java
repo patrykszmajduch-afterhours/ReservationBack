@@ -1,8 +1,11 @@
-package rest.angular.demo.data;
+package rest.angular.demo.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 @AllArgsConstructor
