@@ -60,14 +60,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/authenticate").permitAll()
+                .antMatchers("/authenticate").permitAll().antMatchers("/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/webjars/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/eventdetails").hasAnyAuthority("user","admin")
                 .antMatchers(HttpMethod.GET,"/eventdetails/*").hasAnyAuthority("user","admin")
                 .anyRequest().hasAnyAuthority("admin")
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
-
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
      @Bean
